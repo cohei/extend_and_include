@@ -1,10 +1,3 @@
-# TODO: write with RSpec
-
-# `extend` adds the instance methods of modules to the singleton class for `self`.
-# `include` adds the instance methods of modules to `self`.
-# You cannot `include` modules for objects already instantiated,
-# which are not able to make new instances any more from it.
-
 module M
   def m_instance_method
     true
@@ -18,28 +11,100 @@ end
 class Extended
   extend M
 end
-e = Extended.new
 
 class Included
   include M
 end
-i = Included.new
 
 class O
 end
-o = O.new
-oe = o.extend M
-# oi = o.include M #=> NoMethodError
 
-# M.m_instance_method #=> NoMethodError
-M.m_singleton_method #=> true
-Extended.m_instance_method #=> true
-# Extended.m_singleton_method #=> NoMethodError
-# e.m_instance_method #=> NoMethodError
-# e.m_singleton_method #=> NoMethodError
-# Included.m_instance_method #=> NoMethodError
-# Included.m_singleton_method #=> NoMethodError
-i.m_instance_method #=> true
-# i.m_singleton_method #=> NoMethodError
-oe.m_instance_method #=> true
-# oe.m_singleton_method #=> NoMethodError
+require 'rspec'
+
+describe 'extend_and_include' do
+  # `extend` adds the instance methods of modules to the singleton class for `self`.
+  # `include` adds the instance methods of modules to `self`.
+
+  describe 'O.new' do
+    let(:o) { O.new }
+
+    context 'extend M' do
+      subject { o.extend M }
+
+      it { expect { subject }.not_to raise_error }
+
+      context 'm_instance_method' do
+        it { expect(subject.m_instance_method).to be true }
+      end
+
+      context 'm_singleton_method' do
+        it { expect { subject.m_singleton_method }.to raise_error NoMethodError }
+      end
+    end
+
+    context 'include M' do
+      # You cannot `include` modules for objects already instantiated,
+      # which are not able to make new instances any more from it.
+
+      it { expect { o.include M }.to raise_error NoMethodError }
+    end
+  end
+
+  describe M do
+    context 'm_instance_method' do
+      it { expect { described_class.m_instance_method }.to raise_error NoMethodError }
+    end
+
+    context 'm_singleton_method' do
+      it { expect(described_class.m_singleton_method).to be true }
+    end
+  end
+
+  describe Extended do
+    context 'class' do
+      context 'm_instance_method' do
+        it { expect(described_class.m_instance_method).to be true }
+      end
+
+      context 'm_singleton_method' do
+        it { expect { described_class.m_singleton_method }.to raise_error NoMethodError }
+      end
+    end
+
+    context 'instance' do
+      subject { described_class.new }
+
+      context 'm_instance_method' do
+        it { expect { subject.m_instance_method }.to raise_error NoMethodError }
+      end
+
+      context 'm_singleton_method' do
+        it { expect { subject.m_singleton_method }.to raise_error NoMethodError }
+      end
+    end
+  end
+
+  describe Included do
+    context 'class' do
+      context 'm_instance_method' do
+        it { expect { described_class.m_instance_method }.to raise_error NoMethodError }
+      end
+
+      context 'm_singleton_method' do
+        it { expect { described_class.m_singleton_method }.to raise_error NoMethodError }
+      end
+    end
+
+    context 'instance' do
+      subject { described_class.new }
+
+      context 'm_instance_method' do
+        it { expect(subject.m_instance_method).to be true }
+      end
+
+      context 'm_singleton_method' do
+        it { expect { subject.m_singleton_method }.to raise_error NoMethodError }
+      end
+    end
+  end
+end
