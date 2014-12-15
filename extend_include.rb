@@ -1,6 +1,7 @@
-# extend はモジュールのインスタンスメソッドを self の特異クラスに追加する。
-# include はモジュールのインスタンスメソッドを self に追加する。
-# なのでインスタンスを作れない、すでにインスタンスであるオブジェクトには使えない。
+# `extend` adds the instance methods of modules to the singleton class for `self`.
+# `include` adds the instance methods of modules to `self`.
+# You cannot `include` modules for objects already instantiated,
+# which are not able to make new instances any more from it.
 
 module M
   def a
