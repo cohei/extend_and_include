@@ -33,11 +33,11 @@ describe 'extend_and_include' do
 
       it { expect { subject }.not_to raise_error }
 
-      context 'm_instance_method' do
+      describe 'm_instance_method' do
         it { expect(subject.m_instance_method).to be true }
       end
 
-      context 'm_singleton_method' do
+      describe 'm_singleton_method' do
         it { expect { subject.m_singleton_method }.to raise_error NoMethodError }
       end
     end
@@ -51,22 +51,22 @@ describe 'extend_and_include' do
   end
 
   describe M do
-    context 'm_instance_method' do
+    describe 'm_instance_method' do
       it { expect { described_class.m_instance_method }.to raise_error NoMethodError }
     end
 
-    context 'm_singleton_method' do
+    describe 'm_singleton_method' do
       it { expect(described_class.m_singleton_method).to be true }
     end
   end
 
   describe Extended do
     context 'class' do
-      context 'm_instance_method' do
+      describe 'm_instance_method' do
         it { expect(described_class.m_instance_method).to be true }
       end
 
-      context 'm_singleton_method' do
+      describe 'm_singleton_method' do
         it { expect { described_class.m_singleton_method }.to raise_error NoMethodError }
       end
     end
@@ -74,11 +74,11 @@ describe 'extend_and_include' do
     context 'instance' do
       subject { described_class.new }
 
-      context 'm_instance_method' do
+      describe 'm_instance_method' do
         it { expect { subject.m_instance_method }.to raise_error NoMethodError }
       end
 
-      context 'm_singleton_method' do
+      describe 'm_singleton_method' do
         it { expect { subject.m_singleton_method }.to raise_error NoMethodError }
       end
     end
@@ -86,11 +86,11 @@ describe 'extend_and_include' do
 
   describe Included do
     context 'class' do
-      context 'm_instance_method' do
+      describe 'm_instance_method' do
         it { expect { described_class.m_instance_method }.to raise_error NoMethodError }
       end
 
-      context 'm_singleton_method' do
+      describe 'm_singleton_method' do
         it { expect { described_class.m_singleton_method }.to raise_error NoMethodError }
       end
     end
@@ -98,11 +98,11 @@ describe 'extend_and_include' do
     context 'instance' do
       subject { described_class.new }
 
-      context 'm_instance_method' do
+      describe 'm_instance_method' do
         it { expect(subject.m_instance_method).to be true }
       end
 
-      context 'm_singleton_method' do
+      describe 'm_singleton_method' do
         it { expect { subject.m_singleton_method }.to raise_error NoMethodError }
       end
     end
