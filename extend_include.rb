@@ -6,12 +6,12 @@
 # which are not able to make new instances any more from it.
 
 module M
-  def instance_method
-    :instance_method
+  def m_instance_method
+    true
   end
 
-  def self.singleton_method
-    :singleton_method
+  def self.m_singleton_method
+    true
   end
 end
 
@@ -31,15 +31,15 @@ o = O.new
 oe = o.extend M
 # oi = o.include M #=> NoMethodError
 
-# M.instance_method #=> NoMethodError
-M.singleton_method #=> :singleton_method
-Extended.instance_method #=> :instance_method
-# Extended.singleton_method #=> NoMethodError
-# e.instance_method #=> NoMethodError
-# e.singleton_method #=> NoMethodError
-# Included.instance_method #=> NoMethodError
-# Included.singleton_method #=> NoMethodError
-i.instance_method #=> :instance_method
-# i.singleton_method #=> NoMethodError
-oe.instance_method #=> :instance_method
-# oe.singleton_method #=> NoMethodError
+# M.m_instance_method #=> NoMethodError
+M.m_singleton_method #=> true
+Extended.m_instance_method #=> true
+# Extended.m_singleton_method #=> NoMethodError
+# e.m_instance_method #=> NoMethodError
+# e.m_singleton_method #=> NoMethodError
+# Included.m_instance_method #=> NoMethodError
+# Included.m_singleton_method #=> NoMethodError
+i.m_instance_method #=> true
+# i.m_singleton_method #=> NoMethodError
+oe.m_instance_method #=> true
+# oe.m_singleton_method #=> NoMethodError
